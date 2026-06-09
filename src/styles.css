@@ -144,16 +144,61 @@ body {
     width: 155px;
     height: 155px;
     border-radius: 14px;
-    background-color: #f0e8d8;
+    background-color: #f5efe3;
     cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     box-shadow: 0 1px 3px rgba(60, 35, 10, 0.08);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-outer:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(60, 35, 10, 0.14);
+}
+
+.card-img {
+    flex: 1 1 0;
+    overflow: hidden;
+    background-color: #e8dece;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-info {
+    flex: 0 0 auto;
+    height: 2.4rem;
+    padding: 0 0.65rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(112, 89, 52, 0.12);
+    gap: 0.25rem;
+}
+
+.card-serial-num {
+    font-family: "Inter", sans-serif;
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: #a07848;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.card-serial-price {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #3a2a14;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
@@ -187,6 +232,19 @@ body {
         width: 128px;
         height: 128px;
         border-radius: 12px;
+    }
+
+    .card-info {
+        height: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .card-serial-num {
+        font-size: 0.55rem;
+    }
+
+    .card-serial-price {
+        font-size: 0.8rem;
     }
 }
 
@@ -226,5 +284,18 @@ body {
     .card-outer {
         width: 190px;
         height: 190px;
+    }
+
+    .card-info {
+        height: 2.75rem;
+        padding: 0 0.85rem;
+    }
+
+    .card-serial-num {
+        font-size: 0.65rem;
+    }
+
+    .card-serial-price {
+        font-size: 1.05rem;
     }
 }

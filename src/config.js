@@ -33,6 +33,9 @@ export const SECTION_ORDER = [{
                             },{
                                 title: "Contact",
                                 text: "Insert Contact text here"
+                            },{
+                                title: "Testimonials",
+                                text: "Testimonials yet to be done"
                             }]
 
 export const PAGE_ORDER = ["Cotton","Maheshwari","Linen","Chanderi","Ajrak"]

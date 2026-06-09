@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Card } from "./Card";
+import { Modal } from "./Modal";
 
 
 export function SubSection({ title, items }){
-    const [selected,    setSelected]    = useState(null);
+    const [selected, setSelected] = useState(null);
     
-    console.log(items);
     if (items.length > 0) {
         return (
             <>
@@ -23,9 +23,13 @@ export function SubSection({ title, items }){
                         ))}
                     </div>
                 </div>
+
+                {selected && (
+                    <Modal item={selected} onClose={() => setSelected(null)} />
+                )}
             </>
-        )
+        );
     } else {
-        return (<></>);
+        return <></>;
     }
 }
