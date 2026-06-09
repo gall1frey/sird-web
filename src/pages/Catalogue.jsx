@@ -1,15 +1,16 @@
 import { useState, useMemo } from "react";
-import { useInventory } from "./hooks/useInventory";
-import { Header } from "./components/Header";
-import { Sidebar } from "./components/Sidebar";
-import { Section } from "./components/Section";
-import { PAGE_ORDER, SECTION_ORDER } from "./config";
+import { useInventory } from "../hooks/useInventory";
+import { Header } from "../components/Header";
+import { Sidebar } from "../components/Sidebar";
+import { CartDrawer } from "../components/CartDrawer";
+import { Section } from "../components/Section";
+import { PAGE_ORDER, SECTION_ORDER } from "../config";
 
 export default function Catalogue() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [cartOpen,    setCartOpen]    = useState(false);
     const { items } = useInventory();
 
-    // Subsections that actually have items, in PAGE_ORDER order
     const activeSubsections = useMemo(() => {
         const hasNewArrivals = items.some(item =>
             Array.isArray(item.Flag)
@@ -37,11 +38,18 @@ export default function Catalogue() {
 
     return (
         <>
-            <Header onMenuClick={() => setSidebarOpen(true)} />
+            <Header
+                onMenuClick={() => setSidebarOpen(true)}
+                onCartClick={() => setCartOpen(true)}
+            />
             <Sidebar
                 open={sidebarOpen}
                 onClose={() => setSidebarOpen(false)}
                 activeSubsections={activeSubsections}
+            />
+            <CartDrawer
+                open={cartOpen}
+                onClose={() => setCartOpen(false)}
             />
             {sections}
         </>

@@ -36,7 +36,7 @@ export function FilterBar({ search, onSearch, tags, activeTags, onTagToggle, sto
                 <input
                     className="category-search"
                     type="search"
-                    placeholder="Search by name…"
+                    placeholder="Search by serial…"
                     value={search}
                     onChange={e => onSearch(e.target.value)}
                 />

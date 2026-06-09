@@ -1,7 +1,0 @@
-{
-    "about":"about text goes here",
-    "whatsapp_link":"whatsapp link goes here",
-    "cat_order":["Maheshwari","Ajrak","Test3"],
-    "page_order":["about","catalogue","contact"],
-    "image_dir":"./images/"
-}

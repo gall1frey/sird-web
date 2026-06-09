@@ -6,8 +6,8 @@
 
 import { useState, useEffect } from "react";
 import { getImages, formatPrice } from "../utils/formatters";
+import { useCart } from "../context/CartContext";
 
-// ── Carousel nav button (prev / next) ────────────────────────
 function NavButton({ side, onClick }) {
   return (
     <button
@@ -31,7 +31,6 @@ function NavButton({ side, onClick }) {
   );
 }
 
-// ── Dot indicators ───────────────────────────────────────────
 function Dots({ count, current, onSelect }) {
   return (
     <div style={{ position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6 }}>
@@ -52,7 +51,6 @@ function Dots({ count, current, onSelect }) {
   );
 }
 
-// ── Badge ────────────────────────────────────────────────────
 function Badge({ inStock }) {
   return (
     <span style={{
@@ -66,15 +64,14 @@ function Badge({ inStock }) {
   );
 }
 
-// ── Main Modal ───────────────────────────────────────────────
-/**
- * @param {{ item: object, onClose: ()=>void }} props
- */
 export function Modal({ item, onClose }) {
   const [imgIdx, setImgIdx] = useState(0);
   const images = getImages(item);
+  const { addToCart, cartItems } = useCart();
 
-  // Close on Escape key
+  const cartEntry = cartItems.find(e => (e.item.Sno || e.item.Name) === (item.Sno || item.Name));
+  const qtyInCart = cartEntry?.qty ?? 0;
+
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
@@ -85,7 +82,6 @@ export function Modal({ item, onClose }) {
   const next = () => setImgIdx((i) => (i + 1) % images.length);
 
   return (
-    // Backdrop — click outside modal to close
     <div
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       style={{
@@ -103,7 +99,6 @@ export function Modal({ item, onClose }) {
         position: "relative",
         boxShadow: "0 24px 80px rgba(0,0,0,0.3)",
       }}>
-        {/* Close button */}
         <button
           onClick={onClose}
           aria-label="Close"
@@ -119,7 +114,6 @@ export function Modal({ item, onClose }) {
           ✕
         </button>
 
-        {/* ── Gallery ─────────────────────────────────────── */}
         {images.length > 0 ? (
           <div style={{
             position: "relative", aspectRatio: "16/9",
@@ -131,8 +125,6 @@ export function Modal({ item, onClose }) {
               alt={`${item.Name} — image ${imgIdx + 1} of ${images.length}`}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
-
-            {/* Featured badge */}
             {item.Flag && (
               <span style={{
                 position: "absolute", top: 14, left: 14,
@@ -144,8 +136,6 @@ export function Modal({ item, onClose }) {
                 Featured
               </span>
             )}
-
-            {/* Carousel controls (only shown when there are multiple images) */}
             {images.length > 1 && (
               <>
                 <NavButton side="left"  onClick={prev} />
@@ -165,32 +155,29 @@ export function Modal({ item, onClose }) {
           </div>
         )}
 
-        {/* ── Item details ─────────────────────────────────── */}
         <div style={{ padding: "1.5rem" }}>
-          {/* Name + Price */}
           <div style={{
             display: "flex", justifyContent: "space-between",
             alignItems: "flex-start", gap: "1rem", marginBottom: "0.75rem",
           }}>
             <h2 style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "1.6rem", fontWeight: 700,
-              lineHeight: 1.2, color: "#1a1410",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "1.6rem", fontWeight: 500,
+              lineHeight: 1.2, color: "#1a1410", margin: 0,
             }}>
               {item.Name}
             </h2>
             {item.Price != null && (
               <div style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "1.5rem", fontWeight: 700,
-                color: "#2a5c3f", whiteSpace: "nowrap",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "1.5rem", fontWeight: 500,
+                color: "#705934", whiteSpace: "nowrap",
               }}>
                 {formatPrice(item.Price)}
               </div>
             )}
           </div>
 
-          {/* Badges */}
           <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "1rem" }}>
             <Badge inStock={item.InStock} />
             {item.CategoryName && (
@@ -204,19 +191,31 @@ export function Modal({ item, onClose }) {
             )}
           </div>
 
-          {/* Description */}
           {item.Description && (
             <p style={{ fontSize: "0.95rem", lineHeight: 1.75, color: "#3d3428", marginBottom: "1rem" }}>
               {item.Description}
             </p>
           )}
 
-          {/* Serial number */}
           {item.Sno && (
-            <p style={{ fontSize: "0.78rem", color: "#a09080", fontFamily: "monospace" }}>
+            <p style={{ fontSize: "0.78rem", color: "#a09080", fontFamily: "monospace", marginBottom: "1.25rem" }}>
               Serial: {item.Sno}
             </p>
           )}
+
+          {/* ── Add to Cart ── */}
+          <button
+            className="modal-add-to-cart"
+            onClick={() => addToCart(item)}
+            disabled={!item.InStock}
+          >
+            {!item.InStock
+              ? "Out of Stock"
+              : qtyInCart > 0
+                ? `Add Another  ·  ${qtyInCart} in cart`
+                : "Add to Cart"
+            }
+          </button>
         </div>
       </div>
     </div>

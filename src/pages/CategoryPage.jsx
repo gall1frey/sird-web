@@ -60,7 +60,7 @@ export function CategoryPage() {
     const filtered = useMemo(() => {
         return poolItems.filter(item => {
             const matchesSearch = !search.trim() ||
-                item.Name?.toLowerCase().includes(search.toLowerCase());
+                item.Sno?.toLowerCase().includes(search.toLowerCase());
 
             const itemTags = (item.Tags || []).map(t => t.trim());
             const matchesTags = activeTags.size === 0 ||
