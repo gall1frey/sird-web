@@ -11,7 +11,7 @@ export function SubSection({ title, items }) {
 
     return (
         <>
-            <div className="subsection">
+            <div className="subsection" id={`subsection-${title}`}>
                 <div
                     className="subsection-title subsection-title-link"
                     onClick={() => navigate(`/category/${encodeURIComponent(title)}`)}

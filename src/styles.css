@@ -57,6 +57,9 @@ header {
     display: flex;
     align-items: center;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
     color: #705934;
     opacity: 0.75;
     transition: opacity 0.2s;
@@ -543,4 +546,119 @@ header {
     background: rgba(112, 89, 52, 0.2);
     align-self: center;
     margin: 0 0.25rem;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 6, 0.45);
+    z-index: 149;
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.sidebar-backdrop-visible {
+    display: block;
+    opacity: 1;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(300px, 80vw);
+    background: #FDF9EF;
+    z-index: 150;
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    box-shadow: -4px 0 24px rgba(60, 35, 10, 0.12);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.25rem 0.5rem;
+}
+
+.sidebar-close {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #a07848;
+    cursor: pointer;
+    padding: 0.25rem;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.sidebar-close:hover {
+    opacity: 1;
+}
+
+.sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0 2rem;
+}
+
+.sidebar-list li {
+    display: block;
+}
+
+.sidebar-section-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #705934;
+    letter-spacing: 0.02em;
+    padding: 0.6rem 1.5rem;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.sidebar-section-link:hover {
+    color: #3a2a14;
+}
+
+.sidebar-sublist {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.5rem;
+}
+
+.sidebar-subsection-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-family: "Inter", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a07848;
+    padding: 0.4rem 1.5rem 0.4rem 2.25rem;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.sidebar-subsection-link:hover {
+    color: #705934;
 }

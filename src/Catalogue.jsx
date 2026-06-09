@@ -1,70 +1,49 @@
-// ─────────────────────────────────────────────────────────────
-//  Catalogue.jsx  —  root component
-//
-//  Responsibilities (only):
-//    1. Fetch data via useInventory hook
-//    2. Hold filter / search / selection state
-//    3. Derive filtered + grouped items
-//    4. Render layout: Header → FilterBar → grid sections → Modal
-//
-//  All visual details live in the components/ folder.
-// ─────────────────────────────────────────────────────────────
-
-import { useState } from "react";
-import { useInventory }  from "./hooks/useInventory";
-import { Header }        from "./components/Header";
+import { useState, useMemo } from "react";
+import { useInventory } from "./hooks/useInventory";
+import { Header } from "./components/Header";
+import { Sidebar } from "./components/Sidebar";
 import { Section } from "./components/Section";
-// import { FilterBar }     from "./components/FilterBar";
-// import { Card }          from "./components/Card";
-// import { Modal }         from "./components/Modal";
-
 import { PAGE_ORDER, SECTION_ORDER } from "./config";
 
-// ── Loading screen ───────────────────────────────────────────
-function LoadingScreen() {
-}
-
-// ── Error screen ─────────────────────────────────────────────
-function ErrorScreen({ message }) {
-}
-
-// ── Empty state ──────────────────────────────────────────────
-function EmptyState() {
-}
-
-// ── Root component ───────────────────────────────────────────
 export default function Catalogue() {
-//   const { items, loading, error } = useInventory();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { items } = useInventory();
 
-//   const [search,      setSearch]      = useState("");
-//   const [catFilter,   setCatFilter]   = useState("All");
-//   const [stockFilter, setStockFilter] = useState("All");
-//   const [selected,    setSelected]    = useState(null);
+    // Subsections that actually have items, in PAGE_ORDER order
+    const activeSubsections = useMemo(() => {
+        const hasNewArrivals = items.some(item =>
+            Array.isArray(item.Flag)
+                ? item.Flag.map(f => f.toLowerCase().trim()).includes("true")
+                : item.Flag === true || item.Flag === "TRUE"
+        );
+        const activeCategories = PAGE_ORDER.filter(cat =>
+            items.some(item => item.CategoryName === cat)
+        );
+        return [
+            ...(hasNewArrivals ? ["New Arrivals"] : []),
+            ...activeCategories,
+        ];
+    }, [items]);
 
-  // Early returns for loading / error states
-//   if (loading) return <><LoadingScreen /></>;
-//   if (error)   return <><ErrorScreen message={error} /></>;
+    const sections = SECTION_ORDER.map(page => (
+        <Section
+            key={page.title}
+            title={page.title}
+            content={page.text ? page.text : PAGE_ORDER}
+            textSection={page.text ? true : false}
+            items={items}
+        />
+    ));
 
-  // ── Derived data ─────────────────────────────────────────
-  // const categories = [
-  //   "All",
-  //   ...Array.from(new Set(items.map((i) => i.CategoryName).filter(Boolean))).sort(),
-  // ];
-
-  const pages = PAGE_ORDER
-
-  const sections = SECTION_ORDER.map(page => <Section 
-		key = { page.title } 
-		title = { page.title }
-		content = { page.text ? page.text : pages }
-		textSection = { page.text ? true : false }
-	  />);
-  
-  // ── Render ───────────────────────────────────────────────
-  return(
-	<>
-	  <Header/>
-	  {sections}
-	</>
-  )
+    return (
+        <>
+            <Header onMenuClick={() => setSidebarOpen(true)} />
+            <Sidebar
+                open={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                activeSubsections={activeSubsections}
+            />
+            {sections}
+        </>
+    );
 }
