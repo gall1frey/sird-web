@@ -6,4 +6,4 @@ export default defineConfig({
   plugins: [react()],
 })
 
-// export default { base: "/my-inventory/" }
+export default { base: "/sird-web/" }
