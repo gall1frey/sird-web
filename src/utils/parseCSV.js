@@ -81,8 +81,9 @@ export function parseCSV(text) {
         Description:  raw.Description,
         InStock:      toBoolean(raw.InStock),
         Price:        isNaN(priceNum) ? null : priceNum,
-        Flag:         toBoolean(raw.Flag),
+        Flag:         raw.Flag.split(','),
         ImagesPath:   raw.ImagesPath,
+        Tags:         raw.Tags.split(',').concat(raw.Flag.split(','))
       };
     })
     .filter((item) => item.Name && item.Name.trim() !== "");

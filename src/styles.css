@@ -25,6 +25,9 @@ body {
     justify-content: space-between;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid rgba(112, 89, 52, 0.15);
+}
+
+header {
     position: sticky;
     top: 0;
     z-index: 100;
@@ -298,4 +301,246 @@ body {
     .card-serial-price {
         font-size: 1.05rem;
     }
+}
+
+/* ── Out of stock overlay ────────────────────────────────── */
+
+.card-out-of-stock .card-img {
+    position: relative;
+}
+
+.card-out-of-stock .card-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(253, 249, 239, 0.6);
+    backdrop-filter: grayscale(80%);
+    -webkit-backdrop-filter: grayscale(80%);
+}
+
+/* ── Subsection title — clickable ───────────────────────── */
+
+.subsection-title-link {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    transition: color 0.15s;
+}
+
+.subsection-title-link:hover {
+    color: #705934;
+}
+
+.subsection-title-arrow {
+    font-size: 1em;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.15s, transform 0.15s;
+}
+
+.subsection-title-link:hover .subsection-title-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ── Category page ───────────────────────────────────────── */
+
+.category-page {
+    min-height: 100vh;
+    padding-bottom: 4rem;
+}
+
+.category-page-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: 1px solid rgba(112, 89, 52, 0.1);
+    padding-bottom: 1.25rem;
+    position: sticky;
+    top: 0;
+    background: #FDF9EF;
+    z-index: 50;
+}
+
+.category-back-btn {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    color: #705934;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.category-back-btn:hover {
+    opacity: 1;
+}
+
+.category-page-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #705934;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.category-page-count {
+    font-family: "Inter", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #a07848;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.category-search-wrap {
+    padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.category-search {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgba(112, 89, 52, 0.25);
+    border-radius: 8px;
+    background: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 0.875rem;
+    color: #3a2a14;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.category-search::placeholder {
+    color: #b8a88a;
+}
+
+.category-search:focus {
+    border-color: rgba(112, 89, 52, 0.6);
+}
+
+/* ── Tag chips ───────────────────────────────────────────── */
+
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem 0.25rem;
+}
+
+.tag-chip {
+    font-family: "Inter", sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 99px;
+    border: 1px solid rgba(112, 89, 52, 0.3);
+    background: transparent;
+    color: #a07848;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.tag-chip:hover {
+    border-color: #705934;
+    color: #705934;
+}
+
+.tag-chip-active {
+    background: #705934;
+    border-color: #705934;
+    color: #FDF9EF;
+}
+
+/* ── Category grid ───────────────────────────────────────── */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+}
+
+.category-status {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: #a07848;
+    padding: 2rem 1.5rem;
+    margin: 0;
+}
+
+/* ── Category page responsive ────────────────────────────── */
+
+@media (max-width: 480px) {
+    .category-page-title {
+        font-size: 1.3rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .category-search-wrap,
+    .category-tags,
+    .category-page-header {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .category-page-header {
+        padding: 2rem 3rem 1.5rem;
+    }
+
+    .category-page-title {
+        font-size: 2.25rem;
+    }
+
+    .category-search-wrap {
+        padding: 1.5rem 3rem 0.5rem;
+    }
+
+    .category-tags {
+        padding: 0.75rem 3rem 0.25rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 1.25rem;
+        padding: 1.5rem 3rem;
+    }
+}
+
+/* ── FilterBar labels & divider ─────────────────────────── */
+
+.filter-bar-label {
+    font-family: "Inter", sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #b8a88a;
+    align-self: center;
+    white-space: nowrap;
+}
+
+.filter-bar-divider {
+    width: 1px;
+    height: 1.1rem;
+    background: rgba(112, 89, 52, 0.2);
+    align-self: center;
+    margin: 0 0.25rem;
 }
