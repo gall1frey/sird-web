@@ -10,6 +10,7 @@ import { useInventory } from "../hooks/useInventory";
 import { FilterBar } from "../components/FilterBar";
 import { Card } from "../components/Card";
 import { Modal } from "../components/Modal";
+import { Header } from "../components/Header";
 
 export function CategoryPage() {
     const { categoryName } = useParams();
@@ -76,48 +77,52 @@ export function CategoryPage() {
     }, [poolItems, search, activeTags, stockFilter]);
 
     return (
-        <div className="category-page">
+        <>
+            <Header/>
+            
+            <div className="category-page">
 
-            {/* ── Header ── */}
-            <div className="category-page-header">
-                <button
-                    className="category-back-btn"
-                    onClick={() => navigate(-1)}
-                    aria-label="Back"
-                >
-                    ‹
-                </button>
-                <h1 className="category-page-title">{title}</h1>
-                <span className="category-page-count">{filtered.length} items</span>
+                {/* ── Header ── */}
+                <div className="category-page-header">
+                    <button
+                        className="category-back-btn"
+                        onClick={() => navigate(-1)}
+                        aria-label="Back"
+                    >
+                        ‹
+                    </button>
+                    <h1 className="category-page-title">{title}</h1>
+                    <span className="category-page-count">{filtered.length} items</span>
+                </div>
+
+                {/* ── Filters ── */}
+                <FilterBar
+                    search={search}           onSearch={setSearch}
+                    tags={allTags}            activeTags={activeTags}   onTagToggle={toggleTag}
+                    stockFilter={stockFilter}                           onStockFilter={setStockFilter}
+                />
+
+                {/* ── Grid ── */}
+                {loading && <p className="category-status">Loading…</p>}
+                {error   && <p className="category-status">{error}</p>}
+                {!loading && !error && filtered.length === 0 && (
+                    <p className="category-status">No items found.</p>
+                )}
+
+                <div className="category-grid">
+                    {filtered.map((item, i) => (
+                        <Card
+                            key={item.Sno || item.Name + i}
+                            item={item}
+                            onClick={() => setSelected(item)}
+                        />
+                    ))}
+                </div>
+
+                {selected && (
+                    <Modal item={selected} onClose={() => setSelected(null)} />
+                )}
             </div>
-
-            {/* ── Filters ── */}
-            <FilterBar
-                search={search}           onSearch={setSearch}
-                tags={allTags}            activeTags={activeTags}   onTagToggle={toggleTag}
-                stockFilter={stockFilter}                           onStockFilter={setStockFilter}
-            />
-
-            {/* ── Grid ── */}
-            {loading && <p className="category-status">Loading…</p>}
-            {error   && <p className="category-status">{error}</p>}
-            {!loading && !error && filtered.length === 0 && (
-                <p className="category-status">No items found.</p>
-            )}
-
-            <div className="category-grid">
-                {filtered.map((item, i) => (
-                    <Card
-                        key={item.Sno || item.Name + i}
-                        item={item}
-                        onClick={() => setSelected(item)}
-                    />
-                ))}
-            </div>
-
-            {selected && (
-                <Modal item={selected} onClose={() => setSelected(null)} />
-            )}
-        </div>
+        </>
     );
 }

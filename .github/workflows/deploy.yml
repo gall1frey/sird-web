@@ -1,14 +1,9 @@
-# .github/workflows/deploy.yml
-#
-# Automatically builds and deploys to GitHub Pages
-# on every push to the main branch.
-
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main   # change to "master" if that's your default branch
+      - main
 
 permissions:
   contents: read
@@ -41,11 +36,14 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_SHEET_CSV_URL: ${{ secrets.VITE_SHEET_CSV_URL }}
+          VITE_WHATSAPP_NUMBER: ${{ secrets.VITE_WHATSAPP_NUMBER }}
 
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist   # Vite outputs to /dist by default
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment

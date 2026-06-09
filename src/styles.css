@@ -878,11 +878,17 @@ header {
 
 .cart-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.75rem;
     padding: 1rem 1.25rem;
     border-top: 1px solid rgba(112, 89, 52, 0.15);
     flex-shrink: 0;
+}
+
+.cart-footer-totals {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cart-footer-label {
@@ -899,6 +905,28 @@ header {
     font-size: 1.3rem;
     font-weight: 500;
     color: #3a2a14;
+}
+
+.cart-whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: #25D366;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: background 0.18s;
+}
+
+.cart-whatsapp-btn:hover {
+    background: #1ebe5d;
 }
 
 /* ── Modal add to cart button ────────────────────────────── */
