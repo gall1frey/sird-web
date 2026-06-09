@@ -125,17 +125,7 @@ export function Modal({ item, onClose }) {
               alt={`${item.Name} — image ${imgIdx + 1} of ${images.length}`}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
-            {item.Flag && (
-              <span style={{
-                position: "absolute", top: 14, left: 14,
-                background: "#c8913a", color: "#fff",
-                fontSize: 11, fontWeight: 600,
-                padding: "4px 10px", borderRadius: 99,
-                letterSpacing: "0.06em", textTransform: "uppercase",
-              }}>
-                Featured
-              </span>
-            )}
+
             {images.length > 1 && (
               <>
                 <NavButton side="left"  onClick={prev} />
