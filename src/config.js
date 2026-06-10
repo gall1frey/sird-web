@@ -15,10 +15,11 @@ export const SITE_TITLE = "Sirdeshpande's";
 export const CURRENCY = "INR";
 
 export const SECTION_ORDER = [{
+                                title: "Catalogue",
+                                text: "abc"
+                            },{
                                 title: "Welcome to Sirdeshpande's",
                                 text: "Write a couple lines to start off"
-                            },{
-                                title: "Catalogue",
                             },{
                                 title: "Contact",
                                 text: "Insert Contact text here"
