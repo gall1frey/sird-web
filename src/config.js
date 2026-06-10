@@ -15,13 +15,16 @@ export const SITE_TITLE = "Sirdeshpande's";
 export const CURRENCY = "INR";
 
 export const SECTION_ORDER = [{
-                                title: "About Us",
-                                text: "Insert About Us text here"
+                                title: "Welcome to Sirdeshpande's",
+                                text: "Write a couple lines to start off"
                             },{
                                 title: "Catalogue",
                             },{
                                 title: "Contact",
                                 text: "Insert Contact text here"
+                            },{
+                                title: "About Us",
+                                text: "Insert About Us text here"
                             }];
-
+// TODO: Testimonials
 export const PAGE_ORDER = ["Cotton","Maheshwari","Linen","Chanderi","Ajrak"];

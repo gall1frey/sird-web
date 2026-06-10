@@ -94,10 +94,13 @@ export function Modal({ item, onClose }) {
       <div style={{
         background: "#fff",
         borderRadius: 20,
-        width: "100%", maxWidth: 680,
-        maxHeight: "90vh", overflowY: "auto",
+        width: "100%", maxWidth: 500,
+        height: "90vh",
         position: "relative",
         boxShadow: "0 24px 80px rgba(0,0,0,0.3)",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
       }}>
         <button
           onClick={onClose}
@@ -116,16 +119,18 @@ export function Modal({ item, onClose }) {
 
         {images.length > 0 ? (
           <div style={{
-            position: "relative", aspectRatio: "16/9",
-            overflow: "hidden", borderRadius: "20px 20px 0 0",
+            position: "relative",
+            borderRadius: "20px 20px 0 0",
             background: "#f0ede8",
+            overflow: "hidden",
+            flex: "1 1 0",
+            minHeight: 0,
           }}>
             <img
               src={images[imgIdx]}
               alt={`${item.Name} — image ${imgIdx + 1} of ${images.length}`}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
             />
-
             {images.length > 1 && (
               <>
                 <NavButton side="left"  onClick={prev} />
@@ -145,14 +150,14 @@ export function Modal({ item, onClose }) {
           </div>
         )}
 
-        <div style={{ padding: "1.5rem" }}>
+        <div style={{ padding: "0.75rem 1.25rem 1rem", flexShrink: 0 }}>
           <div style={{
             display: "flex", justifyContent: "space-between",
             alignItems: "flex-start", gap: "1rem", marginBottom: "0.75rem",
           }}>
             <h2 style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "1.6rem", fontWeight: 500,
+              fontSize: "1.25rem", fontWeight: 500,
               lineHeight: 1.2, color: "#1a1410", margin: 0,
             }}>
               {item.Name}
@@ -160,7 +165,7 @@ export function Modal({ item, onClose }) {
             {item.Price != null && (
               <div style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "1.5rem", fontWeight: 500,
+                fontSize: "1.2rem", fontWeight: 500,
                 color: "#705934", whiteSpace: "nowrap",
               }}>
                 {formatPrice(item.Price)}
@@ -168,7 +173,7 @@ export function Modal({ item, onClose }) {
             )}
           </div>
 
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "1rem" }}>
+          {/* <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "0.6rem" }}>
             <Badge inStock={item.InStock} />
             {item.CategoryName && (
               <span style={{
@@ -179,18 +184,20 @@ export function Modal({ item, onClose }) {
                 {item.CategoryName}
               </span>
             )}
-          </div>
+          </div> */}
 
           {item.Description && (
-            <p style={{ fontSize: "0.95rem", lineHeight: 1.75, color: "#3d3428", marginBottom: "1rem" }}>
+            <p style={{ fontSize: "0.85rem", lineHeight: 1.6, color: "#3d3428", marginBottom: "0.6rem" }}>
               {item.Description}
             </p>
           )}
 
           {item.Sno && (
-            <p style={{ fontSize: "0.78rem", color: "#a09080", fontFamily: "monospace", marginBottom: "1.25rem" }}>
-              Serial: {item.Sno}
-            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
+              <span style={{ fontFamily: "Inter, sans-serif", fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: "#a07848" }}>Serial</span>
+              <span style={{ width: 1, height: "0.85em", background: "rgba(112,89,52,0.3)", display: "inline-block", flexShrink: 0 }} />
+              <span style={{ fontFamily: "monospace", fontSize: "0.95rem", fontWeight: 700, color: "#705934", letterSpacing: "0.06em" }}>{item.Sno}</span>
+            </div>
           )}
 
           {/* ── Add to Cart ── */}
