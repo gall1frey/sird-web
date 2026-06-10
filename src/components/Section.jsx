@@ -1,5 +1,12 @@
 import { SubSection } from "./SubSection";
 
+function hasTag(item, tag) {
+    if (Array.isArray(item.Flag)) {
+        return item.Flag.map(f => f.toLowerCase().trim()).includes(tag);
+    }
+    return String(item.Flag).toLowerCase().trim() === tag;
+}
+
 export function Section({ title, content, textSection, items }) {
     if (textSection === true) {
         return (
@@ -11,11 +18,8 @@ export function Section({ title, content, textSection, items }) {
     } else {
         const pages = content;
 
-        const newArrivals = items.filter(item =>
-            Array.isArray(item.Flag)
-                ? item.Flag.map(f => f.toLowerCase().trim()).includes("true")
-                : item.Flag === true || item.Flag === "TRUE"
-        );
+        const newArrivals = items.filter(item => hasTag(item, "new") || hasTag(item, "true"));
+        const onSale      = items.filter(item => hasTag(item, "sale"));
 
         const subSections = pages.map((pageTitle) => {
             const filteredItems = items.filter(
@@ -39,6 +43,13 @@ export function Section({ title, content, textSection, items }) {
                             key="__new_arrivals__"
                             title="New Arrivals"
                             items={newArrivals}
+                        />
+                    )}
+                    {onSale.length > 0 && (
+                        <SubSection
+                            key="__sale__"
+                            title="Sale"
+                            items={onSale}
                         />
                     )}
                     {subSections}

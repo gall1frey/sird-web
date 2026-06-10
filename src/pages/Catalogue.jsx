@@ -6,22 +6,27 @@ import { CartDrawer } from "../components/CartDrawer";
 import { Section } from "../components/Section";
 import { PAGE_ORDER, SECTION_ORDER } from "../config";
 
+function hasTag(item, tag) {
+    if (Array.isArray(item.Flag)) {
+        return item.Flag.map(f => f.toLowerCase().trim()).includes(tag);
+    }
+    return String(item.Flag).toLowerCase().trim() === tag;
+}
+
 export default function Catalogue() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [cartOpen,    setCartOpen]    = useState(false);
     const { items } = useInventory();
 
     const activeSubsections = useMemo(() => {
-        const hasNewArrivals = items.some(item =>
-            Array.isArray(item.Flag)
-                ? item.Flag.map(f => f.toLowerCase().trim()).includes("true")
-                : item.Flag === true || item.Flag === "TRUE"
-        );
+        const hasNewArrivals = items.some(item => hasTag(item, "new") || hasTag(item, "true"));
+        const hasSale        = items.some(item => hasTag(item, "sale"));
         const activeCategories = PAGE_ORDER.filter(cat =>
             items.some(item => item.CategoryName === cat)
         );
         return [
             ...(hasNewArrivals ? ["New Arrivals"] : []),
+            ...(hasSale        ? ["Sale"]         : []),
             ...activeCategories,
         ];
     }, [items]);

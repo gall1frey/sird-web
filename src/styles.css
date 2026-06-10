@@ -228,7 +228,7 @@ header {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.3em;
+    gap: 0.55em;
     transition: color 0.15s;
 }
 
@@ -236,16 +236,24 @@ header {
     color: #705934;
 }
 
-.subsection-title-arrow {
-    font-size: 1em;
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: opacity 0.15s, transform 0.15s;
+.subsection-title-cta {
+    font-family: "Inter", sans-serif;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a07848;
+    border: 1px solid rgba(160, 120, 72, 0.4);
+    border-radius: 99px;
+    padding: 2px 8px;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
 }
 
-.subsection-title-link:hover .subsection-title-arrow {
-    opacity: 1;
-    transform: translateX(0);
+.subsection-title-link:hover .subsection-title-cta {
+    background: #a07848;
+    color: #fff;
+    border-color: #a07848;
 }
 
 /* ── Category page ───────────────────────────────────────── */

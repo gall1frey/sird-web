@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────
 //  pages/CategoryPage.jsx
-//  Full grid view for one category (or New Arrivals).
+//  Full grid view for one category (or New Arrivals / Sale).
 //  All filter logic lives here; UI is delegated to FilterBar.
 // ─────────────────────────────────────────────────────────────
 
@@ -11,6 +11,14 @@ import { FilterBar } from "../components/FilterBar";
 import { Card } from "../components/Card";
 import { Modal } from "../components/Modal";
 import { Header } from "../components/Header";
+
+/** Returns true if item has the given flag tag (case-insensitive). */
+function hasTag(item, tag) {
+    if (Array.isArray(item.Flag)) {
+        return item.Flag.map(f => f.toLowerCase().trim()).includes(tag.toLowerCase());
+    }
+    return String(item.Flag).toLowerCase().trim() === tag.toLowerCase();
+}
 
 export function CategoryPage() {
     const { categoryName } = useParams();
@@ -32,25 +40,25 @@ export function CategoryPage() {
         });
     };
 
-    // Base pool for this category
+    // Base pool for this category/virtual section
     const poolItems = useMemo(() => {
         if (title === "New Arrivals") {
-            return items.filter(item =>
-                Array.isArray(item.Flag)
-                    ? item.Flag.map(f => f.trim().toLowerCase()).includes("true")
-                    : item.Flag === true
-            );
+            return items.filter(item => hasTag(item, "new") || hasTag(item, "true"));
+        }
+        if (title === "Sale") {
+            return items.filter(item => hasTag(item, "sale"));
         }
         return items.filter(item => item.CategoryName === title);
     }, [items, title]);
 
-    // All unique tags in this pool (excluding raw boolean strings)
+    // All unique tags in this pool (excluding raw boolean/meta strings)
     const allTags = useMemo(() => {
+        const SKIP = new Set(["true", "false", "none", "", "new", "sale"]);
         const set = new Set();
         poolItems.forEach(item => {
             (item.Tags || []).forEach(t => {
                 const trimmed = t.trim();
-                if (trimmed && !["true", "false", "none", ""].includes(trimmed.toLowerCase()))
+                if (trimmed && !SKIP.has(trimmed.toLowerCase()))
                     set.add(trimmed);
             });
         });

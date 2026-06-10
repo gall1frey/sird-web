@@ -7,6 +7,7 @@
 import { useState, useEffect } from "react";
 import { getImages, formatPrice } from "../utils/formatters";
 import { useCart } from "../context/CartContext";
+import { WHATSAPP_NUMBER, OUT_OF_STOCK_MESSAGE } from "../config";
 
 function NavButton({ side, onClick }) {
   return (
@@ -51,16 +52,23 @@ function Dots({ count, current, onSelect }) {
   );
 }
 
-function Badge({ inStock }) {
+/** Renders OUT_OF_STOCK_MESSAGE, replacing {{whatsapp}} with a live WhatsApp link. */
+function OutOfStockDescription() {
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
+  const parts = OUT_OF_STOCK_MESSAGE.split("{{whatsapp}}");
   return (
-    <span style={{
-      fontSize: "0.75rem", fontWeight: 600,
-      padding: "3px 10px", borderRadius: 99,
-      background: inStock ? "#e6f2eb" : "#fdecea",
-      color:      inStock ? "#1f6b3e" : "#b92b2b",
-    }}>
-      {inStock ? "In Stock" : "Out of Stock"}
-    </span>
+    <p style={{ fontSize: "0.85rem", lineHeight: 1.6, color: "#3d3428", marginBottom: "0.6rem" }}>
+      {parts[0]}
+      <a
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#1f6b3e", fontWeight: 600, textDecoration: "underline" }}
+      >
+        here
+      </a>
+      {parts[1]}
+    </p>
   );
 }
 
@@ -69,6 +77,7 @@ export function Modal({ item, onClose }) {
   const images = getImages(item);
   const { addToCart, cartItems } = useCart();
 
+  const isOutOfStock = item.InStock === false || item.InStock === "FALSE" || item.InStock === false;
   const cartEntry = cartItems.find(e => (e.item.Sno || e.item.Name) === (item.Sno || item.Name));
   const qtyInCart = cartEntry?.qty ?? 0;
 
@@ -173,24 +182,15 @@ export function Modal({ item, onClose }) {
             )}
           </div>
 
-          {/* <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "0.6rem" }}>
-            <Badge inStock={item.InStock} />
-            {item.CategoryName && (
-              <span style={{
-                fontSize: "0.75rem", fontWeight: 600,
-                padding: "3px 10px", borderRadius: 99,
-                background: "#f0ede8", color: "#7a6a56",
-              }}>
-                {item.CategoryName}
-              </span>
-            )}
-          </div> */}
-
-          {item.Description && (
-            <p style={{ fontSize: "0.85rem", lineHeight: 1.6, color: "#3d3428", marginBottom: "0.6rem" }}>
-              {item.Description}
-            </p>
-          )}
+          {/* Description — custom message for out-of-stock, normal otherwise */}
+          {isOutOfStock
+            ? <OutOfStockDescription />
+            : item.Description && (
+                <p style={{ fontSize: "0.85rem", lineHeight: 1.6, color: "#3d3428", marginBottom: "0.6rem" }}>
+                  {item.Description}
+                </p>
+              )
+          }
 
           {item.Sno && (
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
@@ -204,9 +204,9 @@ export function Modal({ item, onClose }) {
           <button
             className="modal-add-to-cart"
             onClick={() => addToCart(item)}
-            disabled={!item.InStock}
+            disabled={isOutOfStock}
           >
-            {!item.InStock
+            {isOutOfStock
               ? "Out of Stock"
               : qtyInCart > 0
                 ? `Add Another  ·  ${qtyInCart} in cart`

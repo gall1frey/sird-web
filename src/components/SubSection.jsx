@@ -15,9 +15,12 @@ export function SubSection({ title, items }) {
                 <div
                     className="subsection-title subsection-title-link"
                     onClick={() => navigate(`/category/${encodeURIComponent(title)}`)}
+                    role="link"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === "Enter") navigate(`/category/${encodeURIComponent(title)}`); }}
                 >
                     {title}
-                    <span className="subsection-title-arrow">›</span>
+                    <span className="subsection-title-cta">View all ›</span>
                 </div>
                 <div className="subsection-content">
                     {items.map((item, i) => (
