@@ -18,8 +18,7 @@ export const SECTION_ORDER = [{
                                 title: "Catalogue",
                                 text: "abc"
                             },{
-                                title: "Welcome to Sirdeshpande's",
-                                text: "Write a couple lines to start off"
+                                title: "Welcome to Sirdeshpande's"
                             },{
                                 title: "Contact",
                                 text: "Insert Contact text here"
